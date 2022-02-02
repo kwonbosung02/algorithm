@@ -16,7 +16,8 @@ int main(void){
 
     scanf("%d %d", &nl, &nr);
     for(int i = 0; i < nr - nl + 1; i++){
-        if(arr[i+nl] != 0){
+
+        if(arr[i+nl] != 0 && arr[i+nl] != 1){
             printf("%d\n", arr[nl + i]);
         }
     }
