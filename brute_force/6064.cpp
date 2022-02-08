@@ -11,38 +11,20 @@ int main(void){
     for(int i = 0;  i < num; i++){
 
 
-    int M, N, x, y;
-    int x_t = 1;
-    int y_t = 1;
-    int ct = 1;
-    bool ch = false;
-    cin >> M >> N >> x >> y;
-    while( x_t < M || y_t < N){
-        if(x_t < M){
-            x_t++;
-        }
-        else{
-            x_t = 1;
-        }
+        int M, N, x, y;
+        int ans = 0;
+        cin >> M >> N >> x >> y;
 
-        if(y_t < N){
-            y_t++;
+        bool flag = false;
+        for( int i = x; i < M * N; i += M){
+            if((i - 1) % N + 1 == y){
+                cout << i << endl;
+                flag = true;
+                break;
+            }
         }
-        else{
-            y_t = 1;
-        }
-        ct++;
+        if(!flag) cout << -1 << endl;
 
-        if(x_t == x && y_t == y){
-            ch = true;
-            cout << ct << endl;
-        }
-        
-    }
-    if(ch == false){
-        cout << -1 << endl;
-    }
-    
     }
     return 0;
 }
