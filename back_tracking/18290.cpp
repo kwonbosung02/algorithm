@@ -1,72 +1,61 @@
 #include <iostream>
+
 #define Max 11
+#define CH  4
 
-int N, M;
-int k;
-int mx = -10000 * 10;
+int N, M, K;
+int arr[Max][Max] = {0,};
+bool check[Max][Max] = {false,};
+int dx[CH] = { 1, 0, -1, 0};
+int dy[CH] = { 0, 1, 0, -1};
 
-int visited[Max] = {0, };
-int arr[Max][Max] = {0, };
-bool arr_check[Max][Max] = {false, };
+int ans = -1e6;
 
 using namespace std;
-void dfs(int cnt){
-    if(cnt == k){
-        int sum = 0; 
-        for(int i = 0; i < k; i++){
-            sum += visited[i];
-        }
-        cout << "----------";
-        cout << sum << '\n';
-        if(sum > mx){
-            mx = sum; 
-            
-        }
+
+
+void dfs(int cnt, int sum){
+    if(cnt == K){
+
+        if(ans < sum) ans = sum;
         return;
     }
-    for(int i = 1; i <= N; i++){
-        for(int j = 1; j <= M; j++){
-            if(!arr_check[i][j]){
-                arr_check[i][j] = true;
-                arr_check[i+1][j] = true;
-                arr_check[i-1][j] = true;
-                arr_check[i][j+1] = true;
-                arr_check[i][j-1] = true;
-                visited[cnt] = arr[i][j];
-                cout << '[' << visited[cnt] << ']';
-                dfs(cnt + 1);
-                arr_check[i][j] = false;
-                arr_check[i+1][j] = false;
-                arr_check[i-1][j] = false;
-                arr_check[i][j+1] = false;
-                arr_check[i][j-1] = true;  
-                
+
+    for(int i = 1; i <= N; i++){ //y
+        for(int j = 1; j <= M; j++){ //x
+            if(!check[i][j]){
+                bool flag = true;
+                for(int z = 0; z < CH; z++){
+                    int x = j + dx[z];
+                    int y = i + dy[z];
+                    if(x >= 1 && y >= 1 && x<=M && y<=N){
+                        if(check[y][x]) flag = false;
+                        
+                    }
+                }
+                if(flag == true){
+                    check[i][j] = true;
+                    
+                    dfs(cnt + 1, sum + arr[i][j]);
+                    check[i][j] = false;
+                }
             }
         }
-
     }
 }
+
+
 int main(void){
     cin.sync_with_stdio(false);
     cin.tie(0);
-
-    cin >> N >> M >> k;
-    for(int i = 1; i <= N; i++){
-        for(int j = 1; j <= M; j++){
+    cout.tie(0);
+    cin >> N >> M >> K;
+    for(int i = 1; i <= N; i++)
+        for(int j = 1; j <= M; j++)
             cin >> arr[i][j];
-        }
-    }
-    //
-    cout << '\n' << "-------------" << '\n';
-    for(int i = 1; i <= N; i++){
-        for(int j = 1; j <= M; j++){
-            cout << arr[i][j] << ' ';
-        }
-        cout << endl;
-        
-    }   
-    dfs(0);
-    
-
+    dfs(0, 0);
+    cout << ans;
+    return 0;
 }
+
 
